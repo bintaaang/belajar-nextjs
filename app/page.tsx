@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -48,6 +49,9 @@ export default function Home() {
             rel="noopener noreferrer"
           >
             Read our docs
+          </a>
+          <a>
+            <Link href="/login">Klik aku bang</Link>
           </a>
         </div>
       </main>

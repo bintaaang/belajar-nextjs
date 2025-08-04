@@ -1,0 +1,7 @@
+const {{FuncName}} = () => {
+    return (
+
+    )
+}
+
+export default {{funcName}}
