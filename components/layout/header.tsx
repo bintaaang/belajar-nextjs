@@ -6,7 +6,7 @@
 //     </header>
 //   );
 // };
-
+import Link from "next/link";
 // export default Header;
 
 const Header = () => {
@@ -19,15 +19,15 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <a href="#" className="hover:text-blue-600 transition-colors">Home</a>
           <a href="#" className="hover:text-blue-600 transition-colors">About</a>
-          <a href="#" className="hover:text-blue-600 transition-colors">Contact</a>
+          <Link href="/login" className="hover:text-blue-600 transition-colors">Contact</Link>
         </nav>
         <div className="hidden md:block">
-          <a
+          <Link
             href="#"
             className="px-4 py-2 rounded-md bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition-colors"
           >
             Login
-          </a>
+          </Link>
         </div>
         {/* <div className="md:hidden">
           <button className="text-black hover:text-blue-600">

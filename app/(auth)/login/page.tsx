@@ -1,10 +1,22 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import SuccessMessage from "@/components/ui/SuccessMessage";
+
 export default function Login() {
+  
+  const [showSuccess, setShowSuccess] = useState(false);
+  const handleLogin = () => {
+    setShowSuccess(true);
+  };
   return (
     <div className="bg-black">
       <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-bold mb-6 text-center text-black">
           Login to your account
         </h1>
+        {showSuccess && <SuccessMessage message="Login berhasil!" />}
         <form className="space-y-5">
           <div>
             <label
@@ -37,17 +49,18 @@ export default function Login() {
             />
           </div>
           <button
-            type="submit"
+            onClick={(handleLogin)}
             className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
           >
+            {/* {value ? "Sembunyikan" : "Tampilkan"} Sign in */}
             Sign in
           </button>
         </form>
         <p className="text-black text-center mt-4">
           Back to home{" "}
-          <a href="/" className="text-center text-blue-900 hover:underline">
+          <Link href="/" className="text-center text-blue-900 hover:underline">
             Click here
-          </a>
+          </Link>
         </p>
         {/* <p className="mt-6 text-sm text-center text-gray-600">
             Don’t have an account?{" "}
