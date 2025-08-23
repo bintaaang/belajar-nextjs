@@ -1,70 +1,61 @@
 "use client";
 
 import { useState } from "react";
-import { addTodo, toggleTodo } from "./actions"
-
-interface Todo {
-  id: number;
-  title: string;
-  completed: boolean;
-}
+import { useTodoStore } from "../mutating/store/todoStore"
 
 export default function MutatingPage() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const { todos, addTodo, toggleTodo, removeTodo } = useTodoStore();
   const [title, setTitle] = useState("");
 
-  const handleAdd = async () => {
+  const handleAdd = () => {
     if (!title) return;
-
-    const tempTodo = { id: Date.now(), title, completed: false };
-    setTodos((prev) => [tempTodo, ...prev]);
+    addTodo(title);
     setTitle("");
-
-    try {
-      const newTodo = await addTodo(title);
-      setTodos((prev) => [newTodo, ...prev.filter((t) => t.id !== tempTodo.id)]);
-    } catch (err) {
-      console.error(err);
-      setTodos((prev) => prev.filter((t) => t.id !== tempTodo.id));
-    }
-  };
-
-  const handleToggle = async (todo: Todo) => {
-    const updated = { ...todo, completed: !todo.completed };
-    setTodos((prev) => prev.map((t) => (t.id === todo.id ? updated : t)));
-
-    try {
-      await toggleTodo(todo.id, updated.completed);
-    } catch (err) {
-      console.error(err);
-      setTodos((prev) => prev.map((t) => (t.id === todo.id ? todo : t)));
-    }
   };
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h1>Mutating Data (JSONPlaceholder)</h1>
+    <div className="p-4">
+      <h1 className="text-xl font-bold">Mutating Data dengan Zustand</h1>
 
-      <div>
+      <div className="flex gap-2 mt-2">
         <input
+          className="border px-2 py-1 rounded"
           value={title}
           placeholder="New todo..."
           onChange={(e) => setTitle(e.target.value)}
         />
-        <button onClick={handleAdd}>Add</button>
+        <button
+          className="bg-blue-500 text-white px-3 py-1 rounded"
+          onClick={handleAdd}
+        >
+          Add
+        </button>
       </div>
 
-      <ul>
+      <ul className="mt-4 space-y-2">
         {todos.map((todo) => (
-          <li key={todo.id}>
-            <label>
+          <li
+            key={todo.id}
+            className="flex justify-between items-center border-b pb-1"
+          >
+            <label className="flex items-center gap-2">
               <input
                 type="checkbox"
                 checked={todo.completed}
-                onChange={() => handleToggle(todo)}
+                onChange={() => toggleTodo(todo.id)}
               />
-              {todo.title}
+              <span
+                className={todo.completed ? "line-through text-gray-500" : ""}
+              >
+                {todo.title}
+              </span>
             </label>
+            <button
+              className="text-red-500"
+              onClick={() => removeTodo(todo.id)}
+            >
+              ✕
+            </button>
           </li>
         ))}
       </ul>
